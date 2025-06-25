@@ -32,7 +32,7 @@ This project is divided into two main components:
 
 ## 🚀 Getting Started
 
-1. Add a Riot API Develpment key to `server/.env`
-2. Run `npm run dev`
+1. Add your Riot API Development key to `server/.env` in `RIOT_API_KEY` variable
+2. Run `npm run dev` in this directory
     - backend runs on port `3000`
     - web client runs on port `4200`
