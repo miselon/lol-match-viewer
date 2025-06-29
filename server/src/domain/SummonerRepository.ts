@@ -1,8 +1,6 @@
-import { Summoner } from "./Summoner";
+import { LoLRegion } from "./LolRegion";
 
 export interface SummonerRepository {
 
-  getByName(name: string): Promise<Summoner>;
-  
-  getRecentMatches(puuid: string, count: number): Promise<string[]>;
+  getSummonersPuuid(summonerName: string, region: LoLRegion): Promise<PUUID>;
 }

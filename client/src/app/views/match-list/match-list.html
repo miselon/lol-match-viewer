@@ -1,0 +1,8 @@
+<h2>Match History for {{ summonerName }}</h2>
+
+<mat-list>
+  <mat-list-item *ngFor="let match of matches" (click)="viewMatch(match.id)">
+    <div matLine>{{ match.champion }} - {{ match.result }}</div>
+    <div matLine class="secondary">{{ match.kda }} | {{ match.duration }}</div>
+  </mat-list-item>
+</mat-list>

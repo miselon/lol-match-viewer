@@ -1,0 +1,19 @@
+<h2>Search for Summoner:</h2>
+
+<div class="search-box">
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Summoner Name</mat-label>
+        <input matInput [(ngModel)]="summonerName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Region</mat-label>
+        <mat-select [(ngModel)]="region">
+            <mat-option *ngFor="let r of regions" [value]="r">{{ r }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="search()">Search</button>
+    
+</div>
