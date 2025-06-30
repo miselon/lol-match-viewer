@@ -21,4 +21,9 @@ export class MatchId {
 
         return true // TODO some validations
     }
+
+    toString() {
+
+        return this.value
+    }
 }

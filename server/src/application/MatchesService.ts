@@ -1,7 +1,9 @@
-import { LoLRegion } from "../domain/LolRegion";
 import { MatchesRepository } from "../domain/MatchesRepository";
 import { SummonerRepository } from "../domain/SummonerRepository";
+import { LoLRegion } from "../domain/LolRegion";
+import { MatchId } from "../domain/MatchId";
 import { MatchListDto } from "./MatchListDto";
+import { MatchDetailsDto } from "./MatchDetailsDto";
 
 export class MatchesService {
 
@@ -14,5 +16,10 @@ export class MatchesService {
     const puuid = await this.summonerRepostiory.getSummonersPuuid(summonerName, region)
 
     return this.matchesRepository.getRecentMatches(puuid, region)
+  }
+
+  async getMatchDetails(matchId:MatchId, region:LoLRegion): Promise<MatchDetailsDto> {
+
+    return this.matchesRepository.getMatchDetails(matchId, region)
   }
 }

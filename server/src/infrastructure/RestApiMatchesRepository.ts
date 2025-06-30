@@ -24,9 +24,11 @@ export class RestApiMatchesRepository implements MatchesRepository {
         )
     }
 
-    getMatchDetails(matchId: MatchId, region: LoLRegion): Promise<MatchDetailsDto> {
+    async getMatchDetails(matchId: MatchId, region: LoLRegion): Promise<MatchDetailsDto> {
 
-        throw new Error("Method not implemented.");
+        const routing = RegionToRouting.getRouting(region)
+
+        return this.riotApiClient.getMatchDetails(matchId, routing)
     }
 
     private async getMatchListDto(puuid: PUUID, matchId: MatchId, routing: RiotRouting): Promise<MatchListDto> {
@@ -37,6 +39,7 @@ export class RestApiMatchesRepository implements MatchesRepository {
             .find( participant => participant.puuid === puuid.getValue() )!
         
         return {
+            matchId: matchId,
             championName: mainParticipant.championName,
             role: mainParticipant.role,
             date: matchDetails.gameEndTimestamp,

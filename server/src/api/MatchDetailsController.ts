@@ -1,29 +1,28 @@
 import { Router, Request, Response } from "express";
 import { MatchesService } from "../application/MatchesService";
+import { LoLRegion } from "../domain/LolRegion";
+import { MatchId } from "../domain/MatchId";
 
-// TODO
+export function createMatchDetailsController(service: MatchesService): Router {
 
-// export function createMatchListController(service: MatchesService): Router {
+  const router = Router();
 
-//   const router = Router();
+  router.get("/match/:region/:matchId", async (request: Request, response: Response) => {
 
-//   router.get("/matches/:region/:name", async (request: Request, response: Response) => {
+    const region = LoLRegion[request.params.region.toUpperCase() as keyof typeof LoLRegion];
+    const matchId = MatchId.of(request.params.matchId);
 
-//     const region = request.params.name;
-//     const name = request.params.name;
+    try {
+      const matchDetails = await service.getMatchDetails(matchId, region);
+      response.json(matchDetails);
 
-//     const count = parseInt(request.query.count as string) || 10;
+    } catch (error) {
 
-//     try {
-//       const matchIds = await service.getRecentMatchesByName(name, count);
-//       response.json(matchIds);
+      console.error(error);
+      
+      response.status(500).json({ error: "Failed to fetch match details" });
+    }
+  });
 
-//     } catch (error) {
-
-//       console.error(error);
-//       response.status(500).json({ error: "Failed to fetch matches" });
-//     }
-//   });
-
-//   return router;
-// }
+  return router;
+}

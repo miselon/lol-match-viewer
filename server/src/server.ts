@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import { MatchesService } from "./application/MatchesService";
 import { createMatchListController } from "./api/MatchListController";
+import { createMatchDetailsController } from "./api/MatchDetailsController";
 import { RestApiMatchesRepository } from "./infrastructure/RestApiMatchesRepository";
 import { RestApiSummonerRepository } from "./infrastructure/RestApiSummonerRepository";
 
@@ -14,7 +15,10 @@ app.use(cors());
 
 const matchesService = new MatchesService(new RestApiSummonerRepository(), new RestApiMatchesRepository());
 
-app.use("/api", createMatchListController(matchesService));
+app.use("/api",
+  createMatchListController(matchesService),
+  createMatchDetailsController(matchesService),
+);
 
 const port = process.env.PORT!;
 
