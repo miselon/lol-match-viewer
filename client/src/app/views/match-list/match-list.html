@@ -1,8 +1,37 @@
-<h2>Match History for {{ summonerName }}</h2>
+<h2>Match History for summoner {{ summonerName }}</h2>
 
-<mat-list>
-  <mat-list-item *ngFor="let match of matches" (click)="viewMatch(match.id)">
-    <div matLine>{{ match.champion }} - {{ match.result }}</div>
-    <div matLine class="secondary">{{ match.kda }} | {{ match.duration }}</div>
-  </mat-list-item>
-</mat-list>
+<table mat-table [dataSource]="matchList">
+
+    <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let row; let i = index"> {{ i + 1 }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="championName">
+        <th mat-header-cell *matHeaderCellDef> Champion </th>
+        <td mat-cell *matCellDef="let match"> {{match.championName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Role </th>
+        <td mat-cell *matCellDef="let match"> {{match.role}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="kda">
+        <th mat-header-cell *matHeaderCellDef> K/D/A </th>
+        <td mat-cell *matCellDef="let match"> {{match.kda}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="result">
+        <th mat-header-cell *matHeaderCellDef> Result </th>
+        <td mat-cell *matCellDef="let match"> {{match.result}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+
+    <tr mat-row 
+        *matRowDef="let match; columns: columnsToDisplay"
+        (click)="goToMatchDetails(match.matchId)"
+    >
+    </tr>
+</table>

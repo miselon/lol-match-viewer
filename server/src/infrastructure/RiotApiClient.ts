@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { LoLRegion } from "../domain/LolRegion";
 import { RiotRouting } from "../domain/RiotRouting";
 import { PUUID } from "../domain/PUUID";
@@ -6,6 +6,9 @@ import { MatchId } from "../domain/MatchId";
 
 
 export class RiotApiClient {
+
+    // Quick and dirty cache to avoid Riot's cache limits
+    private cache: Record<string, AxiosResponse<any, any>> = {}
     
     private static instance: RiotApiClient
 
@@ -24,36 +27,33 @@ export class RiotApiClient {
 
     async getSummonersPuuid(summonerName: string, region: LoLRegion, routing: RiotRouting): Promise<PUUID> {
 
-        const res = await axios.get(
-            `https://${routing}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(summonerName)}/${encodeURIComponent(region)}`,
-            this.createRequestConfig()
-        )
+        const url = `${this.createBaseUrl(routing)}/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(summonerName)}/${encodeURIComponent(region)}`
 
-        return PUUID.of(res.data.puuid)
+        const response = await this.fetchWithCache(url)
+
+        return PUUID.of(response.data.puuid)
     }
 
     async getRecentMatches(puuid: PUUID, count: number, routing: RiotRouting): Promise<MatchId[]> {
 
-        const res = await axios.get(
-            `https://${routing}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?count=${count}`,
-            this.createRequestConfig()
-        )
+        const url = `${this.createBaseUrl(routing)}/lol/match/v5/matches/by-puuid/${encodeURIComponent(puuid.toString())}/ids?count=${count}`
 
-        return res.data
+        const response = await this.fetchWithCache(url)
+
+        return response.data
     }
 
     async getMatchDetails(matchId: MatchId, routing: RiotRouting): Promise<MatchDetailsApiResponse> {
 
-        const res = await axios.get(
-            `https://${routing}.api.riotgames.com/lol/match/v5/matches/${matchId}`,
-            this.createRequestConfig()
-        )
+        const url = `${this.createBaseUrl(routing)}/lol/match/v5/matches/${encodeURIComponent(matchId.toString())}`
+
+        const response = await this.fetchWithCache(url)
 
         return {
-            gameEndTimestamp: res.data.info.gameEndTimestamp,
-            gameMode: res.data.info.gameMode,
-            gameType: res.data.info.gameType,
-            participants: res.data.info.participants.map(
+            gameEndTimestamp: response.data.info.gameEndTimestamp,
+            gameMode: response.data.info.gameMode,
+            gameType: response.data.info.gameType,
+            participants: response.data.info.participants.map(
                 (p: any) => ({
                         puuid: p.puuid,
                         championName: p.championName,
@@ -66,12 +66,30 @@ export class RiotApiClient {
         }
     }
 
+    private async fetchWithCache(url: string):Promise<AxiosResponse<any, any>> {
+
+        const cachedResponse = this.cache[url]
+
+        if (cachedResponse) {
+
+            return Promise.resolve(cachedResponse)
+        }
+
+        const response = await axios.get(url, this.createRequestConfig())
+
+        return this.cache[url] = response
+    }
+
+    private createBaseUrl(routing: RiotRouting) {
+
+        return `https://${routing}.api.riotgames.com`
+    }
+
     private createRequestConfig() {
 
         return { headers: { "X-Riot-Token": this.apiKey } }
     }
 }
-
 
 export interface MatchDetailsApiResponse {
 

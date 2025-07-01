@@ -6,5 +6,5 @@ import { MatchDetails } from './views/match-details/match-details';
 export const routes: Routes = [
   { path: '', component: Search },
   { path: 'matches/:region/:summonerName', component: MatchList },
-  { path: 'match/:matchId', component: MatchDetails }
+  { path: 'match/:region/:matchId', component: MatchDetails }
 ];

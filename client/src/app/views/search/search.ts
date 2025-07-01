@@ -21,11 +21,12 @@ import { CommonModule } from '@angular/common';
   ]
 })
 
+// TODO search validation?
 export class Search {
 
-  summonerName = '';
-  region = 'EUNE';
-  regions = ['NA', 'EUW', 'EUNE', 'KR'];
+  summonerName = ''
+  region = 'EUNE'
+  regions = ['NA', 'EUW', 'EUNE', 'KR'] // TODO should be served from backend
 
   constructor(private router: Router) {}
 
@@ -33,7 +34,7 @@ export class Search {
 
     if (this.summonerName.trim()) {
 
-      this.router.navigate(['/matches', this.region.toLowerCase(), this.summonerName]);
+      this.router.navigate(['/matches', this.region.toLowerCase(), this.summonerName])
     }
   }
 }
