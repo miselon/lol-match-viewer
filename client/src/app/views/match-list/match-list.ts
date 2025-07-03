@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
-import { MatchesService, MatchListItem } from '../../services/matches';
+import { MatchesService, MatchListDto } from '../../services/matches';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,9 +16,9 @@ import { CommonModule } from '@angular/common';
 
 export class MatchList {
 
-    columnsToDisplay: string[] = ['index', 'championName', 'role', 'kda', 'result'];
+    columnsToDisplay: string[] = ['index', 'queue', 'championName', 'role', 'kda', 'result'];
 
-    matchList: MatchListItem[] = []
+    matchList: MatchListDto[] = []
     summonerName = ''
     region = ''
 

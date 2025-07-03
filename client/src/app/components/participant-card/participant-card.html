@@ -1,0 +1,36 @@
+<mat-card class="participant-card" [class.winner]="participant.win" [class.loser]="!participant.win">
+    <div class="header">
+        <img [src]="participant.championImageUrl" [alt]="participant.championName" />
+        <h3>{{ participant.championName }} (Lvl {{ participant.championLevel }})</h3>
+        <span class="role">{{ participant.role }} / {{ participant.lane }}</span>
+    </div>
+
+    <div class="stats">
+        <div class="kda">
+            <span class="k">{{ participant.kills }}</span> /
+            <span class="d">{{ participant.deaths }}</span> /
+            <span class="a">{{ participant.assists }}</span>
+        </div>
+        <div>CS: {{ participant.totalCS }}</div>
+        <div>Gold: {{ participant.goldEarned | number }}</div>
+        <div><mat-icon>visibility</mat-icon> {{ participant.visionScore }}</div>
+    </div>
+
+    <div class="spells">
+        <span *ngFor="let spell of participant.summonerSpells" matTooltip="{{ getSummonerSpellName(spell) }}" class="tag">
+            <img [src]="getSummonerSpellIcon(spell)" [alt]="getSummonerSpellName(spell)" />
+        </span>
+    </div>
+
+    <div class="runes">
+        <span *ngFor="let rune of participant.runes" class="tag">
+            <img [src]="getRuneIcon(rune)" alt="Rune" />
+        </span>
+    </div>
+
+    <div class="items">
+    <span *ngFor="let item of participant.items" class="tag" >
+        <img [src]="getItemIcon(item)" alt="Item" />
+    </span>
+    </div>
+</mat-card>

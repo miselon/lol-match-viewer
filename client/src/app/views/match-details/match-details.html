@@ -1,1 +1,13 @@
-<p>match-details works!</p>
+<div *ngIf="matchDetails">
+
+    <h2>Game Mode: {{ matchDetails.gameMode }} | Duration: {{ (matchDetails.gameDuration / 60) | number:'1.0-0' }} min</h2>
+    
+    <div class="match-details-box">
+        <div class="winners">
+            <app-participant-card *ngFor="let participant of winners" [participant]="participant"/>
+        </div>
+        <div class="losers">
+            <app-participant-card *ngFor="let participant of losers" [participant]="participant"/>
+        </div>
+    </div>
+</div>

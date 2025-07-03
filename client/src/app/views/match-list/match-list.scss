@@ -1,6 +1,38 @@
-tr[mat-row]:hover {
+.match-list-table {
 
-    background-color: var(--mat-sys-secondary);
-    color: var(--mat-sys-on-secondary);
-    cursor: pointer;
+    border: 1px solid var(--mat-sys-secondary); 
+    min-width: 800px;
+
+    h3 {
+        color: var(--mat-sys-secondary);
+    }
+
+    tr[mat-row]:hover {
+
+        background-color: var(--mat-sys-secondary);
+        color: var(--mat-sys-on-secondary);
+        cursor: pointer;
+
+        .champion-image {
+
+            border: 2px solid var(--mat-sys-on-secondary); 
+        }
+    }
+
+    .champion-box {
+
+        display: flex;
+        align-items: center;
+        justify-content: left;
+    }
+
+    .champion-image {
+
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid var(--mat-sys-secondary); 
+        margin: 10px;
+        margin-right: 17px;
+    }
 }

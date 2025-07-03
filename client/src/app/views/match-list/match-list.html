@@ -1,30 +1,38 @@
-<h2>Match History for summoner {{ summonerName }}</h2>
+<h2>{{ summonerName }}'s match history:</h2>
 
-<table mat-table [dataSource]="matchList">
+<table class="match-list-table" mat-table [dataSource]="matchList">
 
     <ng-container matColumnDef="index">
-        <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let row; let i = index"> {{ i + 1 }} </td>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row; let i = index"> <strong>{{ i + 1 }}.</strong> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="queue">
+        <th mat-header-cell *matHeaderCellDef> <h3>Queue</h3> </th>
+        <td mat-cell *matCellDef="let match;">{{ match.queue }}</td>
     </ng-container>
 
     <ng-container matColumnDef="championName">
-        <th mat-header-cell *matHeaderCellDef> Champion </th>
-        <td mat-cell *matCellDef="let match"> {{match.championName}} </td>
+        <th mat-header-cell *matHeaderCellDef> <h3>Champion</h3> </th>
+        <td class="champion-box" mat-cell *matCellDef="let match">
+            <img src={{match.championImageUrl}} class="champion-image">
+            {{match.championName}}
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef> Role </th>
+        <th mat-header-cell *matHeaderCellDef> <h3>Role</h3> </th>
         <td mat-cell *matCellDef="let match"> {{match.role}} </td>
     </ng-container>
 
     <ng-container matColumnDef="kda">
-        <th mat-header-cell *matHeaderCellDef> K/D/A </th>
+        <th mat-header-cell *matHeaderCellDef> <h3>K/D/A</h3> </th>
         <td mat-cell *matCellDef="let match"> {{match.kda}} </td>
     </ng-container>
 
     <ng-container matColumnDef="result">
-        <th mat-header-cell *matHeaderCellDef> Result </th>
-        <td mat-cell *matCellDef="let match"> {{match.result}} </td>
+        <th mat-header-cell *matHeaderCellDef> <h3>Result</h3> </th>
+        <td mat-cell *matCellDef="let match"> <strong>{{match.result}}</strong> </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
