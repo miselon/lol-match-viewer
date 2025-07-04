@@ -1,88 +1,78 @@
 .participant-card {
-  margin: 10px 0;
-  padding: 12px;
-  border-left: 6px solid transparent;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  border-radius: 8px;
-}
+    margin: 10px 0;
+    padding: 12px;
+    border-left: 3px solid transparent;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
 
-.participant-card.winner {
-  border-color: #4caf50;
-  background-color: #e8f5e9;
-}
-
-.participant-card.loser {
-  border-color: #f44336;
-  background-color: #ffebee;
+    &.winner {
+        border-color: #006503;
+    }
+    &.loser {
+        border-color: #780800;
+    }
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: px;
 }
 
 .header img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid #ddd;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--mat-sys-secondary); 
 }
 
 .header h3 {
-  margin: 0;
-  font-weight: 600;
-  font-size: 1.2rem;
-  flex-grow: 1;
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.2rem;
+    flex-grow: 1;
 }
 
 .role {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #666;
-  white-space: nowrap;
+    color: #666;
 }
 
 .stats {
-  display: flex;
-  gap: 16px;
-  font-weight: 600;
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-  align-items: center;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 8px;
+    align-items: center;
 }
 
-.kda span {
-  font-weight: 700;
-  font-size: 1.3rem;
-}
 
 .k {
-  color: #4caf50;
+    color: #4caf50;
 }
 
 .d {
-  color: #f44336;
+    color: #f44336;
 }
 
 .a {
-  color: #2196f3;
+    color: #2196f3;
 }
 
 .spells,
 .runes,
 .items {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 6px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
 }
 
 .tag img {
-  width: 28px;
-  height: 28px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  cursor: default;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border-bottom: 2px solid var(--mat-sys-secondary); 
+    cursor: default;
 }

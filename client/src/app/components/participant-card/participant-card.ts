@@ -15,20 +15,25 @@ export class ParticipantCard {
 
     @Input({ required: true }) participant!: ParticipantDto
 
+    // TODO image URLs should all be in the backend
     getItemIcon(itemId: string) {
         return `https://ddragon.leagueoflegends.com/cdn/15.13.1/img/item/${itemId}.png`
     }
 
+    // TODO doesnt work
     getSummonerSpellIcon(spellId: string) {
         return `https://ddragon.leagueoflegends.com/cdn/15.13.1/img/spell/${spellId}.png`
     }
 
+
+    // TODO find how to get rune icons
+    // ref datadragon runesReforged
     getRuneIcon(runeId: string) {
 
         return `assets/runes/${runeId}.png`
     }
 
-    // Optional: Map summoner spell ID to human-readable name
+    // TODO from datadragon json
     getSummonerSpellName(spellId: string) {
         const map: Record<string, string> = {
             '21': 'Barrier',
@@ -41,7 +46,6 @@ export class ParticipantCard {
             '13': 'Clarity',
             '11': 'Smite',
             '12': 'Teleport',
-            // Add more if needed
         }
         return map[spellId] || spellId
     }
