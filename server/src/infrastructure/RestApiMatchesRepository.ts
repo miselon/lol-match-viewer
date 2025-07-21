@@ -7,6 +7,8 @@ import { MatchesRepository } from "../domain/MatchesRepository";
 import { RegionToRouting } from "../domain/RegionToRouting";
 import { RiotRouting } from "../domain/RiotRouting";
 import { RiotApiClient } from "./RiotApiClient";
+import { RiotAssetsRepository } from "./RiotAssetsRepository";
+
 
 export class RestApiMatchesRepository implements MatchesRepository {
 
@@ -37,14 +39,22 @@ export class RestApiMatchesRepository implements MatchesRepository {
 
         const mainParticipant = matchDetails.participants
             .find( participant => participant.puuid === puuid.getValue() )!
+
+        const camelCaseChampionName = mainParticipant.championName
         
         return {
             matchId: matchId,
-            championName: mainParticipant.championName,
+            queue: matchDetails.gameMode,
+            championImageUrl: RiotAssetsRepository.getChampionImageUrl(camelCaseChampionName),
+            championName: this.getChampionDisplayName(camelCaseChampionName),
             role: mainParticipant.role,
-            date: matchDetails.gameEndTimestamp,
-            result: "resulttodo",
+            result: mainParticipant.win ? 'WIN' : 'LOSS',
             kda: `${mainParticipant.kills}/${mainParticipant.deaths}/${mainParticipant.assists}`
         }
+    }
+
+    private getChampionDisplayName(camelCaseChampionName: string): string {
+
+        return camelCaseChampionName.split(/(?=[A-Z])/).join(' ');
     }
 }

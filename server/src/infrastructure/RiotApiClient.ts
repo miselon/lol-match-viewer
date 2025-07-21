@@ -3,11 +3,13 @@ import { LoLRegion } from "../domain/LolRegion";
 import { RiotRouting } from "../domain/RiotRouting";
 import { PUUID } from "../domain/PUUID";
 import { MatchId } from "../domain/MatchId";
+import { createMatchDetailsDto } from "./RiotApiResponseTransformer";
+import { MatchDetailsDto } from "../application/MatchDetailsDto";
 
 
 export class RiotApiClient {
 
-    // Quick and dirty cache to avoid Riot's cache limits
+    // Quick and dirty cache to avoid Riot's rate limits
     private cache: Record<string, AxiosResponse<any, any>> = {}
     
     private static instance: RiotApiClient
@@ -43,27 +45,13 @@ export class RiotApiClient {
         return response.data
     }
 
-    async getMatchDetails(matchId: MatchId, routing: RiotRouting): Promise<MatchDetailsApiResponse> {
+    async getMatchDetails(matchId: MatchId, routing: RiotRouting): Promise<MatchDetailsDto> {
 
         const url = `${this.createBaseUrl(routing)}/lol/match/v5/matches/${encodeURIComponent(matchId.toString())}`
 
         const response = await this.fetchWithCache(url)
 
-        return {
-            gameEndTimestamp: response.data.info.gameEndTimestamp,
-            gameMode: response.data.info.gameMode,
-            gameType: response.data.info.gameType,
-            participants: response.data.info.participants.map(
-                (p: any) => ({
-                        puuid: p.puuid,
-                        championName: p.championName,
-                        role: p.role,
-                        kills: p.kills,
-                        deaths: p.deaths,
-                        assists: p.assists,
-                    })
-                )
-        }
+        return createMatchDetailsDto(response)
     }
 
     private async fetchWithCache(url: string):Promise<AxiosResponse<any, any>> {
@@ -89,22 +77,4 @@ export class RiotApiClient {
 
         return { headers: { "X-Riot-Token": this.apiKey } }
     }
-}
-
-export interface MatchDetailsApiResponse {
-
-    gameEndTimestamp: string
-    gameMode: string
-    gameType: string
-    participants: ParticipantDto[]
-}
-
-export interface ParticipantDto {
-
-    puuid: string
-    championName: string
-    role: string
-    kills: number
-    deaths: number
-    assists: number
 }
